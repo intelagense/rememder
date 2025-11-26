@@ -71,9 +71,9 @@ class Rememder extends SingletonAction {
 
 	private async updateKey(ev: WillAppearEvent | KeyDownEvent) {
 		if (this.isOn) {
-			await ev.action.setTitle("💊");
+			await (ev.action as any).setState(1);
 		} else {
-			await ev.action.setTitle("_");
+			await (ev.action as any).setState(0);
 		}
 	}
 }

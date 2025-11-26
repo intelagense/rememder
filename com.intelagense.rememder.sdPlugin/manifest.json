@@ -8,17 +8,25 @@
 			"UUID": "com.intelagense.rememder.reminder",
 			"Tooltip": "Visual reminder indicator: shows when due, press to reset.",
 			"PropertyInspectorPath": "ui/reminder.html",
+			"Icon": "imgs/actions/reminder/icon",
 			"Controllers": [
 				"Keypad"
 			],
 			"States": [
 				{
+					"Image": "imgs/actions/reminder/key",
+					"TitleAlignment": "middle"
+				},
+				{
+					"Image": "imgs/actions/reminder/key-on",
 					"TitleAlignment": "middle"
 				}
 			]
 		}
 	],
 	"Category": "Rememder",
+	"CategoryIcon": "imgs/plugin/category-icon",
+	"Icon": "imgs/plugin/category-icon",
 	"CodePath": "bin/plugin.js",
 	"Description": "Visual reminder indicator: shows when due, press to reset until next cycle.",
 	"SDKVersion": 2,

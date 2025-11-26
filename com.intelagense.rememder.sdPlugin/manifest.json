@@ -1,0 +1,43 @@
+{
+	"Name": "Rememder",
+	"Version": "0.1.0.0",
+	"Author": "intelagense",
+	"Actions": [
+		{
+			"Name": "Reminder",
+			"UUID": "com.intelagense.rememder.reminder",
+			"Tooltip": "Visual reminder indicator: shows when due, press to reset.",
+			"PropertyInspectorPath": "ui/reminder.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"TitleAlignment": "middle"
+				}
+			]
+		}
+	],
+	"Category": "Rememder",
+	"CodePath": "bin/plugin.js",
+	"Description": "Visual reminder indicator: shows when due, press to reset until next cycle.",
+	"SDKVersion": 2,
+	"Software": {
+		"MinimumVersion": "6.5"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "12"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Nodejs": {
+		"Version": "20",
+		"Debug": "enabled"
+	},
+	"UUID": "com.intelagense.rememder"
+}

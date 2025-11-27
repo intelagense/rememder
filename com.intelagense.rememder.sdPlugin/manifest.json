@@ -1,4 +1,6 @@
 {
+	"$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+	"UUID": "com.intelagense.rememder",
 	"Name": "Rememder",
 	"Version": "0.1.0.0",
 	"Author": "intelagense",
@@ -15,11 +17,11 @@
 			"States": [
 				{
 					"Image": "imgs/actions/reminder/key",
-					"TitleAlignment": "middle"
+					"Name": "waiting"
 				},
 				{
 					"Image": "imgs/actions/reminder/key-on",
-					"TitleAlignment": "middle"
+					"Name": "ready"
 				}
 			]
 		}
@@ -46,6 +48,5 @@
 	"Nodejs": {
 		"Version": "20",
 		"Debug": "enabled"
-	},
-	"UUID": "com.intelagense.rememder"
+	}
 }

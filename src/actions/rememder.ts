@@ -1,24 +1,45 @@
 import {
 	action,
-	KeyDownEvent,
+	KeyUpEvent,
 	SingletonAction,
 	WillAppearEvent,
 } from "@elgato/streamdeck";
 
-const REMINDER_TIMES = ["07:00", "11:00", "19:00"];
+const REMINDER_TIMES = ["7:00", "11:00", "19:00"];
 
 @action({ UUID: "com.intelagense.rememder.reminder" })
 class Rememder extends SingletonAction {
-	private isOn = false;
 	private timeoutId?: NodeJS.Timeout;
 
 	override async onWillAppear(ev: WillAppearEvent) {
-		this.isOn = false;
-		await this.updateKey(ev);
-		this.scheduleNextTrigger(ev);
+		const settings = await ev.action.getSettings();
+		const lastState = settings.state === 1 ? 1 : 0;
+		
+		for (const action of this.actions) {
+			if (action.isKey()) {
+				await action.setState(lastState);
+			}
+		}
+		
+		this.scheduleNextTrigger();
 	}
 
-	private scheduleNextTrigger(ev: WillAppearEvent | KeyDownEvent) {
+	override async onKeyUp(ev: KeyUpEvent) {
+		if (this.timeoutId) {
+			clearTimeout(this.timeoutId);
+		}
+		
+		for (const action of this.actions) {
+			if (action.isKey()) {
+				await action.setState(0);
+				await action.setSettings({ state: 0 });
+			}
+		}
+		
+		this.scheduleNextTrigger();
+	}
+
+	private scheduleNextTrigger() {
 		if (this.timeoutId) {
 			clearTimeout(this.timeoutId);
 		}
@@ -29,8 +50,13 @@ class Rememder extends SingletonAction {
 		const msUntilTrigger = nextDueDate.getTime() - Date.now();
 
 		this.timeoutId = setTimeout(async () => {
-			this.isOn = true;
-			await this.updateKey(ev);
+			for (const action of this.actions) {
+				if (action.isKey()) {
+					await action.setState(1);
+					await action.setSettings({ state: 1 });
+				}
+			}
+			this.scheduleNextTrigger();
 		}, msUntilTrigger);
 	}
 
@@ -57,24 +83,8 @@ class Rememder extends SingletonAction {
 		return new Date(startingDueDate!.getTime() + 86400000);
 	}
 
-
 	override onWillDisappear() {
 		if (this.timeoutId) clearTimeout(this.timeoutId);
-	}
-
-	override async onKeyDown(ev: KeyDownEvent) {
-		this.isOn = false;
-		await this.updateKey(ev);
-		this.scheduleNextTrigger(ev);
-	}
-
-
-	private async updateKey(ev: WillAppearEvent | KeyDownEvent) {
-		if (this.isOn) {
-			await (ev.action as any).setState(1);
-		} else {
-			await (ev.action as any).setState(0);
-		}
 	}
 }
 
